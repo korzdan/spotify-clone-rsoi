@@ -1,4 +1,4 @@
-package by.korzun.spotifyclonersoi;
+package by.korzun.spotify_clone_rsoi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

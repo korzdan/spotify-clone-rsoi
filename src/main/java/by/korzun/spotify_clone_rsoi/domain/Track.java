@@ -11,6 +11,4 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Track {
     private String name;
-    private String author;
-    private Long streamsCounter;
 }

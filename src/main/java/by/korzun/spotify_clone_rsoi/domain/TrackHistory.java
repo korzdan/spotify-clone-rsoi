@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class TrackHistory {
     private Track track;
     private List<LocalDateTime> playDates;

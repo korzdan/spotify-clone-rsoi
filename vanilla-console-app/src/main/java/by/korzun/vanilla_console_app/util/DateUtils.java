@@ -1,4 +1,4 @@
-package by.korzun.spotify_clone_rsoi.util;
+package by.korzun.vanilla_console_app.util;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;

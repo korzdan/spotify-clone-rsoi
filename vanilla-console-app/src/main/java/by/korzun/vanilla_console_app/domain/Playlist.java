@@ -1,4 +1,4 @@
-package by.korzun.spotify_clone_rsoi.domain;
+package by.korzun.vanilla_console_app.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

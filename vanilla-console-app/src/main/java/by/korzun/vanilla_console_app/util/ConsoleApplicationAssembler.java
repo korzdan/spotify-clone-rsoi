@@ -1,8 +1,8 @@
-package by.korzun.spotify_clone_rsoi.util;
+package by.korzun.vanilla_console_app.util;
 
-import by.korzun.spotify_clone_rsoi.domain.TrackHistory;
-import by.korzun.spotify_clone_rsoi.service.DefaultTrackHistoryService;
-import by.korzun.spotify_clone_rsoi.service.TrackHistoryService;
+import by.korzun.vanilla_console_app.domain.TrackHistory;
+import by.korzun.vanilla_console_app.service.DefaultTrackHistoryService;
+import by.korzun.vanilla_console_app.service.TrackHistoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

@@ -1,6 +1,6 @@
-package by.korzun.spotify_clone_rsoi.service;
+package by.korzun.vanilla_console_app.service;
 
-import by.korzun.spotify_clone_rsoi.domain.Playlist;
+import by.korzun.vanilla_console_app.domain.Playlist;
 
 import java.time.YearMonth;
 

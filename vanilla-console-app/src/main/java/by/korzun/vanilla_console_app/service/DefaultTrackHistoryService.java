@@ -1,9 +1,9 @@
-package by.korzun.spotify_clone_rsoi.service;
+package by.korzun.vanilla_console_app.service;
 
-import by.korzun.spotify_clone_rsoi.domain.Playlist;
-import by.korzun.spotify_clone_rsoi.domain.Track;
-import by.korzun.spotify_clone_rsoi.domain.TrackHistory;
-import by.korzun.spotify_clone_rsoi.util.DateUtils;
+import by.korzun.vanilla_console_app.domain.Playlist;
+import by.korzun.vanilla_console_app.domain.Track;
+import by.korzun.vanilla_console_app.domain.TrackHistory;
+import by.korzun.vanilla_console_app.util.DateUtils;
 import lombok.AllArgsConstructor;
 
 import java.time.YearMonth;

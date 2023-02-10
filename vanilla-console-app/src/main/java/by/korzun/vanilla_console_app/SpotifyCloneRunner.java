@@ -1,6 +1,6 @@
-package by.korzun.spotify_clone_rsoi;
+package by.korzun.vanilla_console_app;
 
-import by.korzun.spotify_clone_rsoi.util.ConsoleApplicationAssembler;
+import by.korzun.vanilla_console_app.util.ConsoleApplicationAssembler;
 
 public class SpotifyCloneRunner {
 	public static void main(String[] args) {

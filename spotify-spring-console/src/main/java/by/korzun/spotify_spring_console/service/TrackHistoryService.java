@@ -1,6 +1,6 @@
-package by.korzun.spotify_clone_rsoi.service;
+package by.korzun.spotify_spring_console.service;
 
-import by.korzun.spotify_clone_rsoi.domain.Playlist;
+import by.korzun.spotify_spring_console.domain.Playlist;
 
 import java.time.YearMonth;
 

@@ -1,17 +1,22 @@
-package by.korzun.spotify_clone_rsoi.service;
+package by.korzun.spotify_spring_console.service;
 
-import by.korzun.spotify_clone_rsoi.domain.Playlist;
-import by.korzun.spotify_clone_rsoi.domain.Track;
-import by.korzun.spotify_clone_rsoi.domain.TrackHistory;
-import by.korzun.spotify_clone_rsoi.util.DateUtils;
-import lombok.AllArgsConstructor;
+import by.korzun.spotify_spring_console.domain.Playlist;
+import by.korzun.spotify_spring_console.domain.Track;
+import by.korzun.spotify_spring_console.domain.TrackHistory;
+import by.korzun.spotify_spring_console.util.DateUtils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.time.YearMonth;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@AllArgsConstructor
+@Service("defaultTrackHistoryService")
+@RequiredArgsConstructor
 public class DefaultTrackHistoryService implements TrackHistoryService {
 
     private final List<TrackHistory> allTrackHistory;

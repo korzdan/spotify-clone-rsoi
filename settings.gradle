@@ -1,3 +1,4 @@
 rootProject.name = 'spotify-clone-rsoi'
 include 'spotify-spring-console'
 include 'vanilla-console-app'
+include 'spotify-spring'

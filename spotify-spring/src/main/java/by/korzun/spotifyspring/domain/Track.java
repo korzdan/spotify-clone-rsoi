@@ -1,5 +1,6 @@
 package by.korzun.spotifyspring.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,12 +20,9 @@ public class Track {
     private Long id;
     private String name;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "track")
+    @JsonIgnore
     private List<TrackHistory> playHistory;
-    @ManyToMany
-    @JoinTable(
-            name = "tracks_playlists",
-            joinColumns = @JoinColumn(name = "track_id"),
-            inverseJoinColumns = @JoinColumn(name = "playlist_id")
-    )
+    @ManyToMany(mappedBy = "tracks", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Playlist> playlists;
 }

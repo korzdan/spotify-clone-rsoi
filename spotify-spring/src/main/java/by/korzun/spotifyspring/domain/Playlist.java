@@ -19,6 +19,11 @@ public class Playlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToMany(mappedBy = "playlists")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "tracks_playlists",
+            joinColumns = @JoinColumn(name = "playlist_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "track_id", referencedColumnName = "id")
+    )
     private List<Track> tracks;
 }

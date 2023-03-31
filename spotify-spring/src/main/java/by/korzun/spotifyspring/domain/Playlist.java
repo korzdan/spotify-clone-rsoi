@@ -1,5 +1,6 @@
 package by.korzun.spotifyspring.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import java.util.List;
 public class Playlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
     private String name;
     @ManyToMany(cascade = CascadeType.ALL)

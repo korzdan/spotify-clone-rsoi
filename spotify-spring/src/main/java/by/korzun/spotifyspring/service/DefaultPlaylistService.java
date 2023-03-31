@@ -4,7 +4,6 @@ import by.korzun.spotifyspring.domain.Playlist;
 import by.korzun.spotifyspring.domain.Track;
 import by.korzun.spotifyspring.domain.TrackHistory;
 import by.korzun.spotifyspring.domain.dto.TrackPlays;
-import by.korzun.spotifyspring.repository.PlaylistRepository;
 import by.korzun.spotifyspring.repository.TrackRepository;
 import by.korzun.spotifyspring.system_settigns.SystemSettingsService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.*;
+
 @Service
 @RequiredArgsConstructor
 public class DefaultPlaylistService implements PlaylistService {
@@ -28,6 +29,7 @@ public class DefaultPlaylistService implements PlaylistService {
     private static final String TOP_TRACKS_OF_MONTH_PLAYLIST_NAME = "Top tracks of month";
     private static final String TOP_TRACKS_OF_PREVIOUS_MONTH_PLAYLIST_NAME = "Top tracks of previous month";
     private static final String RANDOM_PLAYLIST_NAME = "Random playlist";
+    private static final String MY_TOP_LIKED_TRACKS = "My top liked";
 
     @Override
     public Playlist getPlaylistOfTopTracksOfMonth() {
@@ -35,7 +37,7 @@ public class DefaultPlaylistService implements PlaylistService {
     }
 
     private Playlist assembleAndSavePlaylistOfTopTracksOfMonth() {
-        return assemblePlaylist(TOP_TRACKS_OF_MONTH_PLAYLIST_NAME, getTopTracksOfMonth(YearMonth.now(), null));
+        return assemblePlaylistAndRemoveBlocked(TOP_TRACKS_OF_MONTH_PLAYLIST_NAME, getTopTracksOfMonth(YearMonth.now(), null));
     }
 
     @Override
@@ -44,7 +46,7 @@ public class DefaultPlaylistService implements PlaylistService {
     }
 
     private Playlist assembleAndSavePlaylistOfTopTracksOfPreviousMonth(List<Track> tracksToExclude) {
-        return assemblePlaylist(
+        return assemblePlaylistAndRemoveBlocked(
                 TOP_TRACKS_OF_PREVIOUS_MONTH_PLAYLIST_NAME,
                 getTopTracksOfMonth(YearMonth.of(Year.now().getValue(),
                         YearMonth.now().getMonth().getValue() - 1), tracksToExclude)
@@ -54,6 +56,12 @@ public class DefaultPlaylistService implements PlaylistService {
     @Override
     public Playlist getRandomPlaylist() {
         return assembleAndSaveRandomPlaylist();
+    }
+
+    @Override
+    public Playlist getMyTopTracks() {
+        List<Track> likedTracks = trackRepository.findLikedTracks(systemSettingsService.findNumberOfTracksInPlaylist());
+        return assemblePlaylistAndRemoveBlocked(MY_TOP_LIKED_TRACKS, likedTracks);
     }
 
     private Playlist assembleAndSaveRandomPlaylist() {
@@ -66,7 +74,7 @@ public class DefaultPlaylistService implements PlaylistService {
                 tracksFromSecondPlaylist.get(0),
                 getTopTracksOfMonth(YearMonth.now(), tracksToExclude).get(0)
         );
-        return assemblePlaylist(RANDOM_PLAYLIST_NAME, randomTracks);
+        return assemblePlaylistAndRemoveBlocked(RANDOM_PLAYLIST_NAME, randomTracks);
     }
 
     private List<Track> getTopTracksOfMonth(YearMonth month, List<Track> tracksToExclude) {
@@ -86,11 +94,17 @@ public class DefaultPlaylistService implements PlaylistService {
                 .orElse(true);
     }
 
-    private Playlist assemblePlaylist(String name, List<Track> tracks) {
+    private Playlist assemblePlaylistAndRemoveBlocked(String name, List<Track> tracks) {
         Playlist playlist = new Playlist();
         playlist.setName(name);
-        playlist.setTracks(tracks);
+        playlist.setTracks(filterTracksOnBlocking(tracks));
         return playlist;
+    }
+
+    private List<Track> filterTracksOnBlocking(List<Track> tracks) {
+        return tracks.stream()
+                .filter(track -> !track.getIsBlocked())
+                .collect(toList());
     }
 
     private Integer countTrackPlaysOfMonth(YearMonth month, List<TrackHistory> trackHistories) {

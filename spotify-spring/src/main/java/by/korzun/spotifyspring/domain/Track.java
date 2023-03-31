@@ -17,12 +17,14 @@ import java.util.List;
 public class Track {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
     private String name;
     private String genre;
     private String description;
     private Boolean isBlocked;
     private Boolean isLiked;
+    private String imageUrl;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "track")
     @JsonIgnore
     private List<TrackHistory> playHistory;

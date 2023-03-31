@@ -30,4 +30,8 @@ public class PlaylistController {
         return ResponseEntity.ok(playlistService.getRandomPlaylist());
     }
 
+    @GetMapping("/my-top")
+    private ResponseEntity<Playlist> getMyTopOfTracks() {
+        return ResponseEntity.ok(playlistService.getMyTopTracks());
+    }
 }

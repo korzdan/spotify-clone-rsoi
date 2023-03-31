@@ -7,14 +7,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ErrorHandler {
+
     @ExceptionHandler(SystemSettingIncorrectValueException.class)
-    public ResponseEntity<String> handleInvalidFileException(SystemSettingIncorrectValueException e) {
+    public ResponseEntity<String> handleSystemSettingIncorrectValueException(SystemSettingIncorrectValueException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(SystemSettingTypeMismatchException.class)
-    public ResponseEntity<String> handleFileParserException(SystemSettingTypeMismatchException e) {
+    public ResponseEntity<String> handleSystemSettingTypeMismatchException(SystemSettingTypeMismatchException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(NotGenreFound.class)
+    public ResponseEntity<String> handleNotGenreFound(NotGenreFound e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+    }
 }

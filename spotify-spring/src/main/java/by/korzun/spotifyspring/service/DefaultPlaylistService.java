@@ -6,6 +6,7 @@ import by.korzun.spotifyspring.domain.TrackHistory;
 import by.korzun.spotifyspring.domain.dto.TrackPlays;
 import by.korzun.spotifyspring.repository.PlaylistRepository;
 import by.korzun.spotifyspring.repository.TrackRepository;
+import by.korzun.spotifyspring.system_settigns.SystemSettingsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,37 +23,28 @@ import java.util.stream.Stream;
 public class DefaultPlaylistService implements PlaylistService {
 
     private final TrackRepository trackRepository;
-    private final PlaylistRepository playlistRepository;
+    private final SystemSettingsService systemSettingsService;
 
-    private static final Integer NUMBER_OF_TRACKS_IN_PLAYLIST = 3;
     private static final String TOP_TRACKS_OF_MONTH_PLAYLIST_NAME = "Top tracks of month";
     private static final String TOP_TRACKS_OF_PREVIOUS_MONTH_PLAYLIST_NAME = "Top tracks of previous month";
     private static final String RANDOM_PLAYLIST_NAME = "Random playlist";
 
     @Override
     public Playlist getPlaylistOfTopTracksOfMonth() {
-        Playlist topTracksOfMonthPlaylist = playlistRepository.getPlaylistByName(TOP_TRACKS_OF_MONTH_PLAYLIST_NAME);
-        return topTracksOfMonthPlaylist == null
-                ? assembleAndSavePlaylistOfTopTracksOfMonth()
-                : topTracksOfMonthPlaylist;
+        return assembleAndSavePlaylistOfTopTracksOfMonth();
     }
 
     private Playlist assembleAndSavePlaylistOfTopTracksOfMonth() {
-        return savePlaylist(TOP_TRACKS_OF_MONTH_PLAYLIST_NAME, getTopTracksOfMonth(YearMonth.now(), null));
+        return assemblePlaylist(TOP_TRACKS_OF_MONTH_PLAYLIST_NAME, getTopTracksOfMonth(YearMonth.now(), null));
     }
 
     @Override
     public Playlist getPlaylistOfTopTracksOfPreviousMonth() {
-        Playlist topTracksOfPreviousMonth = playlistRepository
-                .getPlaylistByName(TOP_TRACKS_OF_PREVIOUS_MONTH_PLAYLIST_NAME);
-        return topTracksOfPreviousMonth == null
-                ? assembleAndSavePlaylistOfTopTracksOfPreviousMonth(getPlaylistOfTopTracksOfMonth().getTracks())
-                : topTracksOfPreviousMonth;
-
+        return  assembleAndSavePlaylistOfTopTracksOfPreviousMonth(getPlaylistOfTopTracksOfMonth().getTracks());
     }
 
     private Playlist assembleAndSavePlaylistOfTopTracksOfPreviousMonth(List<Track> tracksToExclude) {
-        return savePlaylist(
+        return assemblePlaylist(
                 TOP_TRACKS_OF_PREVIOUS_MONTH_PLAYLIST_NAME,
                 getTopTracksOfMonth(YearMonth.of(Year.now().getValue(),
                         YearMonth.now().getMonth().getValue() - 1), tracksToExclude)
@@ -61,10 +53,7 @@ public class DefaultPlaylistService implements PlaylistService {
 
     @Override
     public Playlist getRandomPlaylist() {
-        Playlist randomPlaylist = playlistRepository.getPlaylistByName(RANDOM_PLAYLIST_NAME);
-        return randomPlaylist == null
-                ? assembleAndSaveRandomPlaylist()
-                : randomPlaylist;
+        return assembleAndSaveRandomPlaylist();
     }
 
     private Playlist assembleAndSaveRandomPlaylist() {
@@ -77,7 +66,7 @@ public class DefaultPlaylistService implements PlaylistService {
                 tracksFromSecondPlaylist.get(0),
                 getTopTracksOfMonth(YearMonth.now(), tracksToExclude).get(0)
         );
-        return savePlaylist(RANDOM_PLAYLIST_NAME, randomTracks);
+        return assemblePlaylist(RANDOM_PLAYLIST_NAME, randomTracks);
     }
 
     private List<Track> getTopTracksOfMonth(YearMonth month, List<Track> tracksToExclude) {
@@ -87,7 +76,7 @@ public class DefaultPlaylistService implements PlaylistService {
                 .sorted(Comparator.comparing(TrackPlays::getTimesPlayed).reversed())
                 .map(TrackPlays::getTrack)
                 .filter(track -> filterTrack(tracksToExclude, track))
-                .limit(NUMBER_OF_TRACKS_IN_PLAYLIST.longValue())
+                .limit(systemSettingsService.findNumberOfTracksInPlaylist())
                 .toList();
     }
 
@@ -97,11 +86,11 @@ public class DefaultPlaylistService implements PlaylistService {
                 .orElse(true);
     }
 
-    private Playlist savePlaylist(String name, List<Track> tracks) {
+    private Playlist assemblePlaylist(String name, List<Track> tracks) {
         Playlist playlist = new Playlist();
         playlist.setName(name);
         playlist.setTracks(tracks);
-        return playlistRepository.save(playlist);
+        return playlist;
     }
 
     private Integer countTrackPlaysOfMonth(YearMonth month, List<TrackHistory> trackHistories) {

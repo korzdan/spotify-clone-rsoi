@@ -19,6 +19,10 @@ public class Track {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String genre;
+    private String description;
+    private Boolean isBlocked;
+    private Boolean isLiked;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "track")
     @JsonIgnore
     private List<TrackHistory> playHistory;

@@ -18,8 +18,8 @@ public class ErrorHandler {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(NotGenreFound.class)
-    public ResponseEntity<String> handleNotGenreFound(NotGenreFound e) {
+    @ExceptionHandler(GenreNotFound.class)
+    public ResponseEntity<String> handleNotGenreFound(GenreNotFound e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 }

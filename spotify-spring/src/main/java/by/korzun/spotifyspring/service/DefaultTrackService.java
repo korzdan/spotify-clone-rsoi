@@ -2,7 +2,7 @@ package by.korzun.spotifyspring.service;
 
 import by.korzun.spotifyspring.domain.Track;
 import by.korzun.spotifyspring.domain.TrackGenre;
-import by.korzun.spotifyspring.exception.NotGenreFound;
+import by.korzun.spotifyspring.exception.GenreNotFound;
 import by.korzun.spotifyspring.repository.TrackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class DefaultTrackService implements TrackService {
         try {
             return TrackGenre.valueOf(genre.toUpperCase()).toString();
         } catch (IllegalArgumentException e) {
-            throw new NotGenreFound("Genre " + genre + " is not supported yet.");
+            throw new GenreNotFound("Genre " + genre + " is not supported yet.");
         }
     }
 }

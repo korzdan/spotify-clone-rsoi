@@ -85,6 +85,20 @@ class DefaultPlaylistServiceTest {
                                 new TrackHistory(null, null, LocalDateTime.now()),
                                 new TrackHistory(null, null, LocalDateTime.now().minus(1, MONTHS)),
                                 new TrackHistory(null, null, LocalDateTime.now().minus(1, MONTHS))
+                        )),
+                new Track()
+                        .setName("Track 6")
+                        .setIsBlocked(false)
+                        .setIsLiked(true)
+                        .setPlayHistory(List.of(
+                                new TrackHistory(null, null, LocalDateTime.now())
+                        )),
+                new Track()
+                        .setName("Track 7")
+                        .setIsBlocked(false)
+                        .setIsLiked(true)
+                        .setPlayHistory(List.of(
+                                new TrackHistory(null, null, LocalDateTime.now())
                         ))
         );
         LIKED_ONLY_TRACKS = List.of(
@@ -134,5 +148,17 @@ class DefaultPlaylistServiceTest {
         assertEquals(MY_TOP_LIKED_TRACKS, playlist.getName());
         assertTrue(playlist.getTracks().get(0).getIsLiked());
         assertFalse(playlist.getTracks().get(0).getIsBlocked());
+    }
+
+    @Test
+    void getRandomTracks() {
+        when(trackRepository.findAll())
+                .thenReturn(ALL_TRACKS);
+        when(systemSettingsService.findNumberOfTracksInPlaylist())
+                .thenReturn(2);
+        Playlist playlist = defaultPlaylistService.getRandomPlaylist();
+
+        assertEquals(3L, playlist.getTracks().size());
+        assertEquals(RANDOM_PLAYLIST_NAME, playlist.getName());
     }
 }

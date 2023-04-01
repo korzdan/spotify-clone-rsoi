@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static by.korzun.spotifyspring.service.PlaylistConstants.*;
 import static java.util.stream.Collectors.*;
 
 @Service
@@ -25,11 +26,6 @@ public class DefaultPlaylistService implements PlaylistService {
 
     private final TrackRepository trackRepository;
     private final SystemSettingsService systemSettingsService;
-
-    private static final String TOP_TRACKS_OF_MONTH_PLAYLIST_NAME = "Top tracks of month";
-    private static final String TOP_TRACKS_OF_PREVIOUS_MONTH_PLAYLIST_NAME = "Top tracks of previous month";
-    private static final String RANDOM_PLAYLIST_NAME = "Random playlist";
-    private static final String MY_TOP_LIKED_TRACKS = "My top liked";
 
     @Override
     public Playlist getPlaylistOfTopTracksOfMonth() {

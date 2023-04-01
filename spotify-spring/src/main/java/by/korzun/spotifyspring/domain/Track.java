@@ -3,6 +3,7 @@ package by.korzun.spotifyspring.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Table(name = "track")
 @Getter
 @Setter
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString

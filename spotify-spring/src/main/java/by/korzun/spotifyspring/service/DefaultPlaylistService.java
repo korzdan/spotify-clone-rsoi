@@ -80,6 +80,7 @@ public class DefaultPlaylistService implements PlaylistService {
     private List<Track> getTopTracksOfMonth(YearMonth month, List<Track> tracksToExclude) {
         return trackRepository.
                 findAll().stream()
+                .filter(track -> !track.getIsBlocked())
                 .map(track -> new TrackPlays(track, countTrackPlaysOfMonth(month, track.getPlayHistory())))
                 .sorted(Comparator.comparing(TrackPlays::getTimesPlayed).reversed())
                 .map(TrackPlays::getTrack)

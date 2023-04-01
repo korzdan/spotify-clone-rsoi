@@ -28,9 +28,11 @@ class DefaultTrackServiceTest {
     @Test
     public void returnTracks_WhenGenreExists() {
         when(trackRepository.findTracksByGenre(GENRE))
-                .thenReturn(List.of(new Track()));
+                .thenReturn(List.of(new Track().setGenre(GENRE)));
+        List<Track> tracks = trackService.findAllTracksByGenre(GENRE);
 
-        assertEquals(1, trackService.findAllTracksByGenre(GENRE).size());
+        assertEquals(1, tracks.size());
+        assertEquals(GENRE, tracks.get(0).getGenre());
     }
 
     @Test

@@ -35,3 +35,16 @@ test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
 }
+
+jacocoTestReport {
+    dependsOn test
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "**/domain/**",
+                    "**/controller/**"
+            ])
+        }))
+    }
+}

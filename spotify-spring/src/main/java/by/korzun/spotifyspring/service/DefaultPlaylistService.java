@@ -56,7 +56,8 @@ public class DefaultPlaylistService implements PlaylistService {
 
     @Override
     public Playlist getMyTopTracks() {
-        List<Track> likedTracks = trackRepository.findLikedTracks(systemSettingsService.findNumberOfTracksInPlaylist());
+        Integer numberOfTracksInPlaylist = systemSettingsService.findNumberOfTracksInPlaylist();
+        List<Track> likedTracks = trackRepository.findLikedTracks(numberOfTracksInPlaylist);
         return assemblePlaylistAndRemoveBlocked(MY_TOP_LIKED_TRACKS, likedTracks);
     }
 

@@ -1,14 +1,15 @@
 package by.korzun.spotifyspring.system_settigns;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Entity
 @Table(name = "system_settings")
-@Data
 @Accessors(chain = true)
+@Setter
+@Getter
 public class SystemSettings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

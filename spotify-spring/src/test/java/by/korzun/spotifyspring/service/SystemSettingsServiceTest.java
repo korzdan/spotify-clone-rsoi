@@ -30,6 +30,8 @@ class SystemSettingsServiceTest {
     @BeforeEach
     public void init() {
         SYSTEM_SETTING = new SystemSettings()
+                .setId(1L)
+                .setDescription("Desc.")
                 .setName("numberOfTracks")
                 .setValue("3")
                 .setType("INT");
@@ -41,7 +43,7 @@ class SystemSettingsServiceTest {
                 .thenReturn(SYSTEM_SETTING);
         Integer systemSettingValue = systemSettingsService.findNumberOfTracksInPlaylist();
 
-        assertEquals(3, systemSettingValue);
+        assertEquals(SYSTEM_SETTING.getValue(), String.valueOf(systemSettingValue));
     }
 
     @Test

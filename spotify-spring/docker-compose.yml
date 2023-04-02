@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  database:
+    image: 'postgres:14.0'
+    container_name: 'spotify-postgres'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=root'
+      - 'POSTGRES_DB=db'
+
+  backend:
+    build: ./
+    container_name: 'spotify-spring'
+    ports:
+      - '8081:8085'
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/db'
+      - 'SPRING_DATASOURCE_USERNAME=postgres'
+      - 'SPRING_DATASOURCE_PASSWORD=root'
